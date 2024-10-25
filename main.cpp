@@ -3,18 +3,43 @@
 #include <vector>
 using namespace std;
 
+// We should use linked list
+
 // Adds a player to the leaderboard with an initial 0-0 record
 void addPlayer(string name){
 
 }
 
 // Removes a player from the league
-void removePlayer(string name){
-
+void removePlayer(playerList*& head, int val) {
+    if (head == nullptr) {  // If given list is empty, print error and leave function
+        cout << "List of players is empty." << endl;
+        return;
+    }
+    if (head->num == val) {  // If trying to cancel first player, remove it and return
+        playerList* temp = head;
+        head = head->next;
+        delete temp;
+        return;
+    }
+    // Find the previous node of the node to be deleted
+    seatList* current = head;
+    while (current->next != nullptr && current->next->num != val) {
+        current = current->next;
+    }
+    if (current->next == nullptr) {
+        cout << "That spot is not occupied." << endl;
+        return;
+    }
+    // Remove item after current and change pointers
+    seatList* temp = current->next;
+    current->next = current->next->next;
+    delete temp;
+    cout << "Player " << val << " has been canceled.";
 }
 
 // Simulates a game between two players and updates their record
-void simulateEvent(){
+void simulateMatches(){
 
 }
 
@@ -25,7 +50,7 @@ void updateTable(){
 
 // Displays the leaderboard
 void display(){
-
+    
 }
 
 int main(){
