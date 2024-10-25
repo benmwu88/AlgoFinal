@@ -3,40 +3,32 @@
 #include <vector>
 using namespace std;
 
-// We should use linked list
-
-// Adds a player to the leaderboard with an initial 0-0 record
-void addPlayer(string name){
-
+// We should use linked list for the players
+struct playerList{
+    string name;
+    int score;
+    struct playerList* next;
 }
 
-// Removes a player from the league
-void removePlayer(playerList*& head, int val) {
-    if (head == nullptr) {  // If given list is empty, print error and leave function
-        cout << "List of players is empty." << endl;
-        return;
+// Adds a player to the leaderboard with an initial (ELO system)
+void addPlayer(playerList*& list, string playerName) {
+    struct playerList* player = new playerList();
+    player->name = playerName;
+    player->next = nullptr;
+    player->score = 0;
+    if (!list) { // If list is empty
+        list = player; // Input player
+    } else {
+        struct playerList* temp = list;
+        while (temp->next != nullptr) {   // Find tail of list by iterating
+            temp = temp->next;
+        }
+        temp->next = player;  // Insert player at end of list
     }
-    if (head->num == val) {  // If trying to cancel first player, remove it and return
-        playerList* temp = head;
-        head = head->next;
-        delete temp;
-        return;
-    }
-    // Find the previous node of the node to be deleted
-    seatList* current = head;
-    while (current->next != nullptr && current->next->num != val) {
-        current = current->next;
-    }
-    if (current->next == nullptr) {
-        cout << "That spot is not occupied." << endl;
-        return;
-    }
-    // Remove item after current and change pointers
-    seatList* temp = current->next;
-    current->next = current->next->next;
-    delete temp;
-    cout << "Player " << val << " has been canceled.";
+    cout << "Player " << playerName << " has been added." << endl;
 }
+
+// No remove function needed 
 
 // Simulates a game between two players and updates their record
 void simulateMatches(){
